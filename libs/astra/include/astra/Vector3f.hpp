@@ -1,5 +1,5 @@
 // This file is part of the Orbbec Astra SDK [https://orbbec3d.com]
-// Copyright (c) 2015 Orbbec 3D
+// Copyright (c) 2015-2017 Orbbec 3D
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,6 +22,10 @@
 
 namespace astra {
 
+    /*! 
+    \ingroup cpp_basic_types_ref
+    \brief Represents a float 3d vector 
+    */
     struct Vector3f : public astra_vector3f_t
     {
         Vector3f()

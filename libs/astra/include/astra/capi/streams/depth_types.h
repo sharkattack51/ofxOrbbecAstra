@@ -1,5 +1,5 @@
 // This file is part of the Orbbec Astra SDK [https://orbbec3d.com]
-// Copyright (c) 2015 Orbbec 3D
+// Copyright (c) 2015-2017 Orbbec 3D
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ typedef struct {
     int resolutionY;
     int halfResX;
     int halfResY;
-} conversion_cache_t;
+} astra_conversion_cache_t;
 
 typedef astra_streamconnection_t astra_depthstream_t;
 typedef struct _astra_imageframe* astra_depthframe_t;

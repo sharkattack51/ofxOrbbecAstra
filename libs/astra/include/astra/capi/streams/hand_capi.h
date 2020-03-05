@@ -1,5 +1,5 @@
 // This file is part of the Orbbec Astra SDK [https://orbbec3d.com]
-// Copyright (c) 2015 Orbbec 3D
+// Copyright (c) 2015-2017 Orbbec 3D
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,8 +24,16 @@
 
 ASTRA_BEGIN_DECLS
 
+/**
+ * \defgroup hand_ref hand stream apis
+ * \ingroup c_high_api_ref
+ * @{
+ */
 ASTRA_API_EX astra_status_t astra_reader_get_handstream(astra_reader_t reader,
                                                                  astra_handstream_t* handStream);
+
+ASTRA_API_EX astra_status_t astra_handstream_is_available(astra_handstream_t handStream,
+                                                          bool* isAvailable);
 
 ASTRA_API_EX astra_status_t astra_frame_get_handframe(astra_reader_frame_t readerFrame,
                                                                astra_handframe_t* handFrame);
@@ -37,14 +45,14 @@ ASTRA_API_EX astra_status_t astra_handframe_get_frameindex(astra_handframe_t han
                                                                     astra_frame_index_t* index);
 
 ASTRA_API_EX astra_status_t astra_handframe_get_hand_count(astra_handframe_t handFrame,
-                                                                    size_t* handCount);
+                                                           uint32_t* handCount);
 
 ASTRA_API_EX astra_status_t astra_handframe_copy_hands(astra_handframe_t handFrame,
                                                                 astra_handpoint_t* handPointsDestination);
 
 ASTRA_API_EX astra_status_t astra_handframe_get_shared_hand_array(astra_handframe_t handFrame,
-                                                                           astra_handpoint_t** handpoints,
-                                                                           size_t* handCount);
+                                                                  astra_handpoint_t** handpoints,
+                                                                  uint32_t* handCount);
 
 ASTRA_API_EX astra_status_t astra_handstream_get_include_candidate_points(astra_handstream_t handStream,
                                                                                    bool* includeCandidatePoints);
@@ -76,7 +84,7 @@ ASTRA_API_EX astra_status_t astra_debug_handstream_set_pause_input(astra_debug_h
 ASTRA_API_EX astra_status_t astra_debug_handstream_set_lock_spawn_point(astra_debug_handstream_t debugHandStream,
                                                                                  bool lockSpawnPoint);
 
-
+/** @} */
 ASTRA_END_DECLS
 
 #endif // HAND_CAPI_H

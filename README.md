@@ -19,37 +19,49 @@ Hopefully this should compile and run without any hiccups. Please open an issue 
 
 ## Using this addon in your project
 
-If you're creating a new project, the easiest approach is to copy the example project, which is already set up with the correct header & linker paths.
-
-If you're using the projectGenerator, either to create a new project or update an existing one, most things will be taken care of for you, but you will still need to set some things manually. Likewise, the Xcode OF plugin will probably do some, but not all, of the necessary things. Check that the following settings, which are also outlined  `addon_config.mk`, are set up correctly, or do so manually if needed:
-
-- add to **Header Search Paths**:
-  - `../../../addons/ofxOrbbecAstra/libs/astra/include/`
-- add to **Other Linker Flags**:
-  - `../../../addons/ofxOrbbecAstra/libs/astra/lib/osx/libastra_core_api.dylib`
-  - `../../../addons/ofxOrbbecAstra/libs/astra/lib/osx/libastra_core.dylib`
-  - `../../../addons/ofxOrbbecAstra/libs/astra/lib/osx/libastra.dylib`
-- add to **Runpath Search Paths**:
-  - `@executable_path/../../../../../../../addons/ofxOrbbecAstra/libs/astra/lib/osx/`
+If you're using the projectGenerator, either to create a new project or update an existing one, which are also outlined  `addon_config.mk`, are set up correctly.
 
 Note: this assumes your project folder is at the standard "three levels down" from your openFrameworks folder, e.g. `openFrameworks/apps/myApps/projectFolder/`. If not, you may need to adjust the runpath setting.
+
+Note: `copy_to_bin64_dir` is empty. It is necessary to include the dll required for runtime in this folder, so copy the contents of `AstraSDK-v2.0.19/bin` manually.
+
+```
+astra.dll
+astra.toml
+astra_core.dll
+astra_core_api.dll
+OniFile.dll
+opencv_core248.dll
+opencv_highgui248.dll
+opencv_imgproc248.dll
+opencv_video248.dll
+OpenNI.ini
+OpenNI2.dll
+ORBBEC.dll
+orbbec.ini
+Plugins/openni_sensor.dll
+Plugins/orbbec_hand.dll
+Plugins/orbbec_hand.toml
+Plugins/orbbec_xs.dll
+Plugins/OrbbecBodyTracking.dll
+```
 
 ## Support
 
 This has been tested with the following setup:
 
-- Xcode 6
-- OS X 10.11
-- openFrameworks 0.9.0
-- Astra SDK 0.5.0 (which is included, no separate download/installation is required)
+- vs2017
+- Windows 10 64bit
+- openFrameworks 0.11.0
+- Astra SDK 2.0.19 (which is included, no separate download/installation is required)
 - Orbbec Astra/Astra Pro camera
-
-Windows support hopefully coming soon. The libs from the Win32 and x64 SDKs are included, but I haven't had a chance to test this.
 
 ## Hardware Note – Astra Pro & color data
 
 There is a known issue with the SDK and Astra Pro cameras which does not make the color data available. Trying to start the color stream (i.e. calling `astra.initColorStream()`) will also cause other streams to fail, so you must comment-out this line in the example and/or your projects.
 
 The color data is separately available as a standard webcam. Rather than using `initColorStream()`, you can use `initVideoGrabber()` which uses an `ofVideoGrabber` under the hood for you.
+
+Note: grabberImage resizes and crops to depth data, not the full resolution of the camera :)
 
 You can keep an eye on the [Orbbec forums](https://3dclub.orbbec3d.com/) to see the latest.

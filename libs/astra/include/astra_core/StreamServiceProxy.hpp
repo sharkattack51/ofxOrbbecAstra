@@ -1,6 +1,6 @@
 /* THIS FILE AUTO-GENERATED FROM StreamServiceProxy.hpp.lpp. DO NOT EDIT. */
 // This file is part of the Orbbec Astra SDK [https://orbbec3d.com]
-// Copyright (c) 2015 Orbbec 3D
+// Copyright (c) 2015-2017 Orbbec 3D
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,9 +22,28 @@
 
 namespace astra {
 
+    /*!
+      \ingroup cpp_core_api_ref
+      \brief Stream Service Proxy Class
+
+      \details Stream Service Proxy is use to proxy a connection
+     */
     class StreamServiceProxy : public astra_streamservice_proxy_t
     {
     public:
+
+        astra_status_t notify_plugin_event(astra_event_id id,
+                                           const void* data,
+                                           uint32_t dataSize)
+        {
+            return astra_streamservice_proxy_t::notify_plugin_event(streamService, id, data, dataSize);
+        }
+
+        astra_status_t streamset_is_available(astra_streamsetconnection_t connection,
+                                              bool* isAvailable)
+        {
+            return astra_streamservice_proxy_t::streamset_is_available(streamService, connection, isAvailable);
+        }
 
         astra_status_t streamset_open(const char* connectionString,
                                       astra_streamsetconnection_t* streamSet)
@@ -35,6 +54,13 @@ namespace astra {
         astra_status_t streamset_close(astra_streamsetconnection_t* streamSet)
         {
             return astra_streamservice_proxy_t::streamset_close(streamService, streamSet);
+        }
+
+        astra_status_t streamset_get_uri(astra_streamsetconnection_t connection,
+                                         char* uri,
+                                         int32_t size)
+        {
+            return astra_streamservice_proxy_t::streamset_get_uri(streamService, connection, uri, size);
         }
 
         astra_status_t reader_create(astra_streamsetconnection_t streamSet,
@@ -62,6 +88,12 @@ namespace astra {
             return astra_streamservice_proxy_t::stream_get_description(streamService, connection, description);
         }
 
+        astra_status_t stream_is_available(astra_streamconnection_t connection,
+                                           bool* isAvailable)
+        {
+            return astra_streamservice_proxy_t::stream_is_available(streamService, connection, isAvailable);
+        }
+
         astra_status_t stream_start(astra_streamconnection_t connection)
         {
             return astra_streamservice_proxy_t::stream_start(streamService, connection);
@@ -70,6 +102,12 @@ namespace astra {
         astra_status_t stream_stop(astra_streamconnection_t connection)
         {
             return astra_streamservice_proxy_t::stream_stop(streamService, connection);
+        }
+
+        astra_status_t reader_has_new_frame(astra_reader_t reader,
+                                            bool* hasNewFrame)
+        {
+            return astra_streamservice_proxy_t::reader_has_new_frame(streamService, reader, hasNewFrame);
         }
 
         astra_status_t reader_open_frame(astra_reader_t reader,
@@ -107,7 +145,7 @@ namespace astra {
 
         astra_status_t stream_set_parameter(astra_streamconnection_t connection,
                                             astra_parameter_id parameterId,
-                                            size_t inByteLength,
+                                            uint32_t inByteLength,
                                             astra_parameter_data_t inData)
         {
             return astra_streamservice_proxy_t::stream_set_parameter(streamService, connection, parameterId, inByteLength, inData);
@@ -115,7 +153,7 @@ namespace astra {
 
         astra_status_t stream_get_parameter(astra_streamconnection_t connection,
                                             astra_parameter_id parameterId,
-                                            size_t* resultByteLength,
+                                            uint32_t* resultByteLength,
                                             astra_result_token_t* token)
         {
             return astra_streamservice_proxy_t::stream_get_parameter(streamService, connection, parameterId, resultByteLength, token);
@@ -123,7 +161,7 @@ namespace astra {
 
         astra_status_t stream_get_result(astra_streamconnection_t connection,
                                          astra_result_token_t token,
-                                         size_t dataByteLength,
+                                         uint32_t dataByteLength,
                                          astra_parameter_data_t dataDestination)
         {
             return astra_streamservice_proxy_t::stream_get_result(streamService, connection, token, dataByteLength, dataDestination);
@@ -131,17 +169,17 @@ namespace astra {
 
         astra_status_t stream_invoke(astra_streamconnection_t connection,
                                      astra_command_id commandId,
-                                     size_t inByteLength,
+                                     uint32_t inByteLength,
                                      astra_parameter_data_t inData,
-                                     size_t* resultByteLength,
+                                     uint32_t* resultByteLength,
                                      astra_result_token_t* token)
         {
             return astra_streamservice_proxy_t::stream_invoke(streamService, connection, commandId, inByteLength, inData, resultByteLength, token);
         }
 
-        astra_status_t temp_update()
+        astra_status_t update()
         {
-            return astra_streamservice_proxy_t::temp_update(streamService);
+            return astra_streamservice_proxy_t::update(streamService);
         }
     };
 }

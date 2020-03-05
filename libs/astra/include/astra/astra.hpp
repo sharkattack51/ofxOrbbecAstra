@@ -1,5 +1,5 @@
 // This file is part of the Orbbec Astra SDK [https://orbbec3d.com]
-// Copyright (c) 2015 Orbbec 3D
+// Copyright (c) 2015-2017 Orbbec 3D
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,12 +18,30 @@
 #define ASTRA_HPP
 
 #include "Vector.hpp"
-#include "streams/Depth.hpp"
+#include "Matrix3x3.hpp"
+#include "DeviceController.hpp"
+#include "streams/Body.hpp"
 #include "streams/Color.hpp"
+#include "streams/Depth.hpp"
 #include "streams/Infrared.hpp"
 #include "streams/Hand.hpp"
 #include "streams/DebugHand.hpp"
-#include "streams/Skeleton.hpp"
 #include "streams/Point.hpp"
+#include "streams/MaskedColor.hpp"
+#include "streams/ColorizedBody.hpp"
+
+/**
+ * \defgroup cpp_basic_types_ref basic types
+ * \ingroup cpp_ref
+
+ * \defgroup cpp_low_api_ref low level stream apis
+ * \ingroup cpp_ref
+ *
+ * \defgroup cpp_high_api_ref high level stream apis
+ * \ingroup cpp_ref
+ *
+ * \defgroup cpp_core_api_ref astra core apis
+ * \ingroup cpp_ref
+ */
 
 #endif /* ASTRA_HPP */

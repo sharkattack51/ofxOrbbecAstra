@@ -1,5 +1,5 @@
 // This file is part of the Orbbec Astra SDK [https://orbbec3d.com]
-// Copyright (c) 2015 Orbbec 3D
+// Copyright (c) 2015-2017 Orbbec 3D
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,6 +26,12 @@ namespace astra {
 
     static const char* ASTRA_DEFAULT_DEVICE_URI = "device/default";
 
+    /*!
+      \ingroup cpp_core_api_ref
+      \brief Stream Set Class
+
+      \details Stream Set \ref concepts_streamset.
+     */
     class StreamSet
     {
     public:
@@ -36,6 +42,7 @@ namespace astra {
         StreamSet(const char* uri)
         {
             setRef_ = std::make_shared<StreamSetRef>(uri);
+            setRef_->connect();
         }
 
         StreamSet(const StreamSet& other)
@@ -48,7 +55,25 @@ namespace astra {
             return *this;
         }
 
+        std::string uri()
+        {
+            char uri[ASTRA_STREAMSET_URI_MAX_LENGTH];
+            astra_streamset_get_uri(setRef_->connection_handle(), uri, ASTRA_STREAMSET_URI_MAX_LENGTH);
+            return std::string(uri);
+        }
+
         bool is_valid() { return setRef_ != nullptr; }
+
+        bool is_available()
+        {
+            bool isAvailable = false;
+            if (setRef_ == nullptr || setRef_->connection_handle() == nullptr)
+            {
+                return isAvailable;
+            }
+            astra_streamset_is_available(setRef_->connection_handle(), &isAvailable);
+            return isAvailable;
+        }
 
         inline StreamReader create_reader();
         astra_streamsetconnection_t get_handle() const { return setRef_->connection_handle(); }

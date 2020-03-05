@@ -6,16 +6,17 @@ meta:
 	ADDON_URL = https://github.com/mattfelsen/ofxOrbbecAstra
 
 common:
-	ADDON_INCLUDES = libs/astra/include/
+	ADDON_INCLUDES  = libs/astra/include/
+	ADDON_INCLUDES += src
 
-osx:
-	# Only needs to link with these three libs, not any of the Plugins folder
-	ADDON_LIBS  = libs/astra/lib/osx/libastra_core_api.dylib
-	ADDON_LIBS += libs/astra/lib/osx/libastra_core.dylib
-	ADDON_LIBS += libs/astra/lib/osx/libastra.dylib
-
-	# All of the libs, including those inside the Plugins folder, do need to be
-	# available for loading at runtime, so copy them into the bin folder,
-	# maintaining the folder structure
-	ADDON_DLLS_TO_COPY  = libs/astra/lib/osx/
-
+vs:
+	ADDON_LIBS  = libs/astra/lib/vs/x64/astra.lib
+	ADDON_LIBS += libs/astra/lib/vs/x64/astra_core.lib
+	ADDON_LIBS += libs/astra/lib/vs/x64/astra_core_api.lib
+	ADDON_LIBS += libs/astra/lib/vs/x64/Plugins/astra-device-sdk.lib
+	ADDON_LIBS += libs/astra/lib/vs/x64/Plugins/openni2/OpenNI2.lib
+	ADDON_LIBS += libs/astra/lib/vs/x64/Plugins/openni_sensor.lib
+	ADDON_LIBS += libs/astra/lib/vs/x64/Plugins/orbbec_hand.lib
+	ADDON_LIBS += libs/astra/lib/vs/x64/Plugins/orbbec_xs.lib
+	ADDON_LIBS += libs/astra/lib/vs/x64/Shiny-static.lib
+	ADDON_DLLS_TO_COPY = copy_to_bin64_dir

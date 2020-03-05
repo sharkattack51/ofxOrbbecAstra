@@ -1,5 +1,5 @@
 // This file is part of the Orbbec Astra SDK [https://orbbec3d.com]
-// Copyright (c) 2015 Orbbec 3D
+// Copyright (c) 2015-2017 Orbbec 3D
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,6 +22,11 @@ namespace astra {
     class StreamReader;
     class Frame;
 
+    /*! 
+     \ingroup cpp_core_api_ref
+     \brief Frame Listener class
+     \details inherits this class to receive data and regist it,then when astra update has data,we will call on_frame_ready
+    */
     class FrameListener
     {
     public:

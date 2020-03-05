@@ -1,5 +1,5 @@
 // This file is part of the Orbbec Astra SDK [https://orbbec3d.com]
-// Copyright (c) 2015 Orbbec 3D
+// Copyright (c) 2015-2017 Orbbec 3D
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,6 +22,12 @@
 
 namespace astra {
 
+    /*!
+      \ingroup cpp_core_api_ref
+      \brief Stream Description class
+
+      \details some info about stream
+     */
     class StreamDescription : private ::astra_stream_desc_t
     {
     public:
@@ -49,10 +55,8 @@ namespace astra {
         operator const ::astra_stream_desc_t*() const { return this; }
 
         astra_stream_type_t type() const { return ::astra_stream_desc_t::type; }
-        void set_type(astra_stream_type_t type) { ::astra_stream_desc_t::type = type; }
 
         astra_stream_subtype_t subtype() const { return ::astra_stream_desc_t::subtype; }
-        void set_subtype(astra_stream_subtype_t subtype) { ::astra_stream_desc_t::subtype = subtype; }
     };
 
     inline bool operator==(const StreamDescription& lhs, const StreamDescription& rhs)

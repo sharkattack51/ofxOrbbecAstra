@@ -1,6 +1,6 @@
 /* THIS FILE AUTO-GENERATED FROM PluginServiceProxy.hpp.lpp. DO NOT EDIT. */
 // This file is part of the Orbbec Astra SDK [https://orbbec3d.com]
-// Copyright (c) 2015 Orbbec 3D
+// Copyright (c) 2015-2017 Orbbec 3D
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@
 #include <astra_core/capi/plugins/astra_pluginservice_proxy.h>
 #include <cstdarg>
 #include <cstdio>
+#include <cstdint>
 
 namespace astra {
 
@@ -105,7 +106,7 @@ namespace astra {
     }
 
     astra_status_t create_stream_bin(astra_stream_t streamHandle,
-                                     size_t lengthInBytes,
+                                     uint32_t lengthInBytes,
                                      astra_bin_t* binHandle,
                                      astra_frame_t** binBuffer)
     {
@@ -137,7 +138,7 @@ namespace astra {
         return astra_pluginservice_proxy_t::link_connection_to_bin(pluginService, connection, binHandle);
     }
 
-    astra_status_t get_parameter_bin(size_t byteSize,
+    astra_status_t get_parameter_bin(uint32_t byteSize,
                                      astra_parameter_bin_t* binHandle,
                                      astra_parameter_data_t* parameterData)
     {

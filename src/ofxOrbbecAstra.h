@@ -22,6 +22,7 @@ public:
 	// "device/sensor1", etc. Otherwise, leave blank.
 	void setup();
 	void setup(const string& uri);
+	void exit();
     
 	void enableDepthImage(bool enable);
 	void enableRegistration(bool useRegistration);
@@ -29,6 +30,8 @@ public:
 
 	void initColorStream();
 	void initDepthStream();
+	void initBodyStream();
+	void initMaskedColorStream();
 	void initPointStream();
 	void initHandStream();
 	void initVideoGrabber(int deviceID = 0);
@@ -38,6 +41,8 @@ public:
 
 	void draw(float x = 0, float y = 0, float w = 0, float h = 0);
 	void drawDepth(float x = 0, float y = 0, float w = 0, float h = 0);
+	void drawMaskedColor(float x = 0, float y = 0, float w = 0, float h = 0);
+	void drawGrabber(float x = 0, float y = 0, float w = 0, float h = 0);
 
 	ofVec3f getWorldCoordinateAt(int x, int y);
 
@@ -47,9 +52,14 @@ public:
 	ofShortPixels& getRawDepth();
 	ofImage& getDepthImage();
 	ofImage& getColorImage();
+	ofImage& getMaskedColorImage();
+	ofImage& getGrabberImage();
 
 	unordered_map<int32_t,ofVec2f>& getHandsDepth();
 	unordered_map<int32_t,ofVec3f>& getHandsWorld();
+
+	void SetBodyTrackingSdkLicense(const char* lic);
+
 
 protected:
 
@@ -60,7 +70,7 @@ protected:
 
 	astra::StreamSet streamset;
 	astra::StreamReader reader;
-
+	
 	int width;
 	int height;
 	bool bSetup;
@@ -72,16 +82,28 @@ protected:
 	ofShortPixels depthPixels;
 	ofImage depthImage;
 	ofImage colorImage;
+	ofImage maskedColorImage;
 
 	// Hack for Astra Pro cameras which only expose color via a webcam/UVC
 	// stream, not through the SDK
 	bool bUseVideoGrabber;
 	shared_ptr<ofVideoGrabber> grabber;
+	int cameraReqWidth;
+	int cameraReqHeight;
+	int registGrabberWidth;
+	int registGrabberHeight;
+	int dstGrabberWidth;
+	int dstGrabberHeight;
+
+	ofImage grabberImage;
+	ofFbo grabberImageFbo;
+	ofPixels grabberImagePixels;
+	ofImage grabberCroppedImage;
+	ofPixels grabberCroppedPixels;
 
 	vector<char> depthLookupTable;
 	vector<ofVec3f> cachedCoords;
 
 	unordered_map<int32_t,ofVec2f> handMapDepth;
 	unordered_map<int32_t,ofVec3f> handMapWorld;
-
 };

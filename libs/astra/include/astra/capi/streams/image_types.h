@@ -1,5 +1,5 @@
 // This file is part of the Orbbec Astra SDK [https://orbbec3d.com]
-// Copyright (c) 2015 Orbbec 3D
+// Copyright (c) 2015-2017 Orbbec 3D
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,16 +20,6 @@
 #include <stdint.h>
 #include <astra_core/capi/astra_types.h>
 
-#if ! defined(__ANDROID__) && (defined(__GNUC__) || defined(__clang__))
-#define PACK_STRUCT __attribute__((packed))
-#else
-#define PACK_STRUCT
-#endif
-
-#ifdef _MSC_VER
-#pragma pack(push, 1)
-#endif
-
 typedef uint32_t astra_pixel_format_t;
 
 typedef enum {
@@ -40,23 +30,34 @@ typedef enum {
     ASTRA_PIXEL_FORMAT_RGB888 = 200,
     ASTRA_PIXEL_FORMAT_YUV422 = 201,
     ASTRA_PIXEL_FORMAT_YUYV = 202,
+    ASTRA_PIXEL_FORMAT_RGBA = 203,
+    ASTRA_PIXEL_FORMAT_NV21 = 204,
     ASTRA_PIXEL_FORMAT_GRAY8 = 300,
     ASTRA_PIXEL_FORMAT_GRAY16 = 301,
 
     ASTRA_PIXEL_FORMAT_POINT = 400,
+
 } astra_pixel_formats;
 
 typedef struct {
     uint8_t r;
     uint8_t g;
     uint8_t b;
-} PACK_STRUCT astra_rgb_pixel_t;
+} astra_rgb_pixel_t;
+
+typedef struct {
+    uint8_t r;
+    uint8_t g;
+    uint8_t b;
+    uint8_t alpha;
+} astra_rgba_pixel_t;
+
 
 typedef struct {
     uint32_t width;
     uint32_t height;
     astra_pixel_format_t pixelFormat;
-} PACK_STRUCT astra_image_metadata_t;
+} astra_image_metadata_t;
 
 typedef struct {
     uint32_t id;
@@ -65,10 +66,6 @@ typedef struct {
     astra_pixel_format_t pixelFormat;
     uint8_t fps;
 } astra_imagestream_mode_t;
-
-#ifdef _MSC_VER
-#pragma pack(pop)
-#endif
 
 typedef struct _astra_imageframe* astra_imageframe_t;
 typedef astra_streamconnection_t astra_imagestream_t;

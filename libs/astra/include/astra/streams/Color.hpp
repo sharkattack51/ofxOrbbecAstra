@@ -1,5 +1,5 @@
 // This file is part of the Orbbec Astra SDK [https://orbbec3d.com]
-// Copyright (c) 2015 Orbbec 3D
+// Copyright (c) 2015-2017 Orbbec 3D
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,6 +24,17 @@
 
 namespace astra {
 
+    /*!
+      \defgroup cpp_color_api_ref color stream apis
+      \ingroup cpp_low_api_ref
+      @{
+     */
+
+    /*!
+      \brief A color stream
+
+      \details A color stream.
+     */
     class ColorStream : public ImageStream
     {
     public:
@@ -40,6 +51,11 @@ namespace astra {
         astra_colorstream_t colorStream_;
     };
 
+    /*!
+      \brief color frame of rgb format
+
+      \details color frame of rgb format
+     */
     class ColorFrame : public ImageFrame<RgbPixel, ASTRA_STREAM_COLOR>
     {
     public:
@@ -48,6 +64,11 @@ namespace astra {
         {}
     };
 
+    /*!
+      \brief color frame of raw format
+
+      \details color frame of raw format
+     */
     class RawColorFrame : public ImageFrame<uint8_t, ASTRA_STREAM_COLOR>
     {
     public:
@@ -55,6 +76,17 @@ namespace astra {
             : ImageFrame(frame, ASTRA_PIXEL_FORMAT_RGB888)
         {}
     };
+
+#ifdef __ANDROID__
+    class NV21ColorFrame : public ImageFrame<uint8_t, ASTRA_STREAM_COLOR>
+    {
+    public:
+        NV21ColorFrame(astra_imageframe_t frame)
+        : ImageFrame(frame, ASTRA_PIXEL_FORMAT_NV21)
+        {}
+    };
+#endif
+    /** @} */
 }
 
 #endif // ASTRA_COLOR_HPP

@@ -1,5 +1,5 @@
 // This file is part of the Orbbec Astra SDK [https://orbbec3d.com]
-// Copyright (c) 2015 Orbbec 3D
+// Copyright (c) 2015-2017 Orbbec 3D
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,8 +22,15 @@
 #include <astra/capi/streams/depth_types.h>
 #include <stdbool.h>
 
+#define ASTRA_SERIAL_NUMBER_MAX 256
+
 ASTRA_BEGIN_DECLS
 
+/**
+ * \defgroup depth_ref depth stream apis
+ * \ingroup c_low_api_ref
+ * @{
+ */
 ASTRA_API_EX astra_status_t astra_convert_depth_to_world(astra_depthstream_t depthStream,
                                                          float depthX, float depthY, float depthZ,
                                                          float* pWorldX, float* pWorldY, float* pWorldZ);
@@ -35,8 +42,11 @@ ASTRA_API_EX astra_status_t astra_convert_world_to_depth(astra_depthstream_t dep
 ASTRA_API_EX astra_status_t astra_reader_get_depthstream(astra_reader_t reader,
                                                          astra_depthstream_t* depthStream);
 
+ASTRA_API_EX astra_status_t astra_depthstream_is_available(astra_depthstream_t depthStream,
+                                                           bool* isAvailable);
+
 ASTRA_API_EX astra_status_t astra_depthstream_get_depth_to_world_data(astra_depthstream_t depthStream,
-                                                                      conversion_cache_t* conversion_data);
+                                                                      astra_conversion_cache_t* conversionData);
 
 ASTRA_API_EX astra_status_t astra_depthstream_get_hfov(astra_depthstream_t depthStream,
                                                        float* hFov);
@@ -50,6 +60,30 @@ ASTRA_API_EX astra_status_t astra_depthstream_get_registration(astra_depthstream
 ASTRA_API_EX astra_status_t astra_depthstream_set_registration(astra_depthstream_t depthStream,
                                                                bool enabled);
 
+/**
+ * get depth to color resolution if device supports.
+ * @param mode refer to device.
+ */
+ASTRA_API_EX astra_status_t astra_depthstream_get_d2c_resolution(astra_depthstream_t depthStream,
+                                                              int *mode);
+
+/**
+ * set depth to color resolution if device supports.
+ * @param mode refer to device.
+ */
+ASTRA_API_EX astra_status_t astra_depthstream_set_d2c_resolution(astra_depthstream_t depthStream,
+                                                              int mode);
+                                                               
+ASTRA_API_EX astra_status_t astra_depthstream_get_serialnumber(astra_depthstream_t depthStream,
+                                                               char* serialnumber,
+                                                               uint32_t length);
+
+ASTRA_API_EX astra_status_t astra_depthstream_get_chip_id(astra_depthstream_t depthStream,
+                                                          uint32_t* chipId);
+
+ASTRA_API_EX astra_status_t astra_depthstream_get_usb_info(astra_depthstream_t depthStream,
+	                                                        astra_usb_info_t* usbInfo);
+
 ASTRA_API_EX astra_status_t astra_frame_get_depthframe(astra_reader_frame_t readerFrame,
                                                        astra_depthframe_t* depthFrame);
 
@@ -58,11 +92,11 @@ ASTRA_API_EX astra_status_t astra_frame_get_depthframe_with_subtype(astra_reader
                                                                     astra_depthframe_t* colorFrame);
 
 ASTRA_API_EX astra_status_t astra_depthframe_get_data_byte_length(astra_depthframe_t depthFrame,
-                                                                  size_t* byteLength);
+                                                                  uint32_t* byteLength);
 
 ASTRA_API_EX astra_status_t astra_depthframe_get_data_ptr(astra_depthframe_t depthFrame,
                                                           int16_t** data,
-                                                          size_t* byteLength);
+                                                          uint32_t* byteLength);
 
 ASTRA_API_EX astra_status_t astra_depthframe_copy_data(astra_depthframe_t depthFrame,
                                                        int16_t* data);
@@ -73,6 +107,7 @@ ASTRA_API_EX astra_status_t astra_depthframe_get_metadata(astra_depthframe_t dep
 ASTRA_API_EX astra_status_t astra_depthframe_get_frameindex(astra_depthframe_t depthFrame,
                                                             astra_frame_index_t* index);
 
+/** @} */
 ASTRA_END_DECLS
 
 #endif // DEPTH_CAPI_H

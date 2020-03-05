@@ -1,5 +1,5 @@
 // This file is part of the Orbbec Astra SDK [https://orbbec3d.com]
-// Copyright (c) 2015 Orbbec 3D
+// Copyright (c) 2015-2017 Orbbec 3D
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,11 +27,21 @@
 
 namespace astra {
 
+    /*!
+     * \ingroup cpp_core_api_ref
+     * \brief Initializes the library.
+     * \details This function must be called before calling any other function.
+     */
     inline astra_status_t initialize()
     {
         return astra_initialize();
     }
 
+    /*!
+     * \ingroup cpp_core_api_ref
+     * \brief Terminate the library, destroying all its streams. 
+     * \details This function must be called when library not used, otherwise there will be problems when re-initialize it.And do not call any other function after calling this method.
+     */
     inline astra_status_t terminate()
     {
         return astra_terminate();

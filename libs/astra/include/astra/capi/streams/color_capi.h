@@ -1,5 +1,5 @@
 // This file is part of the Orbbec Astra SDK [https://orbbec3d.com]
-// Copyright (c) 2015 Orbbec 3D
+// Copyright (c) 2015-2017 Orbbec 3D
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,8 +23,19 @@
 
 ASTRA_BEGIN_DECLS
 
+/**
+ * \defgroup color_ref color stream apis
+ * \ingroup c_low_api_ref
+ * @{
+ */
 ASTRA_API_EX astra_status_t astra_reader_get_colorstream(astra_reader_t reader,
                                                          astra_colorstream_t* colorStream);
+
+ASTRA_API_EX astra_status_t astra_colorstream_is_available(astra_colorstream_t colorStream,
+                                                           bool* isAvailable);
+
+ASTRA_API_EX astra_status_t astra_colorstream_get_usb_info(astra_colorstream_t colorStream,
+                                                           astra_usb_info_t* usbInfo);
 
 ASTRA_API_EX astra_status_t astra_frame_get_colorframe(astra_reader_frame_t readerFrame,
                                                        astra_colorframe_t* colorFrame);
@@ -34,15 +45,15 @@ ASTRA_API_EX astra_status_t astra_frame_get_colorframe_with_subtype(astra_reader
                                                                     astra_colorframe_t* colorFrame);
 
 ASTRA_API_EX astra_status_t astra_colorframe_get_data_byte_length(astra_colorframe_t colorFrame,
-                                                                  size_t* byteLength);
+                                                                  uint32_t* byteLength);
 
 ASTRA_API_EX astra_status_t astra_colorframe_get_data_ptr(astra_colorframe_t colorFrame,
                                                           uint8_t** data,
-                                                          size_t* byteLength);
+                                                          uint32_t* byteLength);
 
 ASTRA_API_EX astra_status_t astra_colorframe_get_data_rgb_ptr(astra_colorframe_t colorFrame,
                                                               astra_rgb_pixel_t** data,
-                                                              size_t* byteLength);
+                                                              uint32_t* byteLength);
 
 ASTRA_API_EX astra_status_t astra_colorframe_copy_data(astra_colorframe_t colorFrame,
                                                        uint8_t* data);
@@ -52,6 +63,7 @@ ASTRA_API_EX astra_status_t astra_colorframe_get_metadata(astra_colorframe_t col
 
 ASTRA_API_EX astra_status_t astra_colorframe_get_frameindex(astra_colorframe_t colorFrame,
                                                             astra_frame_index_t* index);
+/** @} */
 ASTRA_END_DECLS
 
 #endif /* COLOR_CAPI_H */

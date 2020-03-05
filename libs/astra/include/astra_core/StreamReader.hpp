@@ -1,5 +1,5 @@
 // This file is part of the Orbbec Astra SDK [https://orbbec3d.com]
-// Copyright (c) 2015 Orbbec 3D
+// Copyright (c) 2015-2017 Orbbec 3D
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,6 +28,12 @@
 
 namespace astra {
 
+    /*!
+      \ingroup cpp_core_api_ref
+      \brief Stream Reader class
+
+      \details Stream Reader class \ref concepts_streamreader.
+     */
     class StreamReader
     {
     public:
@@ -70,6 +76,13 @@ namespace astra {
             return T(connection);
         }
 
+        
+        /*! 
+        \brief add listener
+        \details Registers a callback function to \ref concepts_streamreader.
+        
+        \param[in] listener
+        */
         void add_listener(FrameListener& listener)
         {
             if (!is_valid())
@@ -78,6 +91,12 @@ namespace astra {
             readerRef_.get()->add_listener(listener);
         }
 
+        /*! 
+        \brief remove listener
+        \details Unregisters the callback function.
+        
+        \param[in] listener
+        */
         void remove_listener(FrameListener& listener)
         {
             if (!is_valid())
@@ -87,6 +106,16 @@ namespace astra {
         }
 
         bool is_valid() { return readerRef_ != nullptr; }
+
+        bool has_new_frame()
+        {
+            if (!is_valid())
+                throw std::logic_error("StreamReader is not associated with a streamset.");
+
+            bool hasNewFrame = false;
+            astra_reader_has_new_frame(readerRef_->get_reader(), &hasNewFrame);
+            return hasNewFrame;
+        }
 
         Frame get_latest_frame(int timeoutMillis = ASTRA_TIMEOUT_FOREVER)
         {
@@ -122,9 +151,9 @@ namespace astra {
                 astra_reader_destroy(&reader_);
             }
 
-            static void frame_ready_thunk(void* clientTag,
-                                          astra_reader_t reader,
-                                          astra_reader_frame_t frame)
+            static void ASTRA_CALLBACK frame_ready_thunk(void* clientTag,
+                                                      astra_reader_t reader,
+                                                      astra_reader_frame_t frame)
             {
                 ReaderRef* self = static_cast<ReaderRef*>(clientTag);
                 self->notify_listeners(frame);

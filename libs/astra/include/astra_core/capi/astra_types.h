@@ -1,5 +1,5 @@
 // This file is part of the Orbbec Astra SDK [https://orbbec3d.com]
-// Copyright (c) 2015 Orbbec 3D
+// Copyright (c) 2015-2017 Orbbec 3D
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,6 +20,8 @@
 #include <stdint.h>
 #include <stddef.h>
 
+const uint32_t ASTRA_STREAMSET_URI_MAX_LENGTH = 256;
+
 const uint8_t ASTRA_MAX_READER_STREAMS = 16;
 
 const int ASTRA_TIMEOUT_FOREVER = -1;
@@ -33,10 +35,24 @@ typedef int32_t astra_frame_index_t;
 
 const astra_stream_subtype_t DEFAULT_SUBTYPE = 0;
 
+#ifdef __ANDROID__
+const astra_stream_subtype_t COLOR_NV21_SUBTYPE = 1;
+#endif
+
 typedef struct {
     astra_stream_type_t type;
     astra_stream_subtype_t subtype;
 } astra_stream_desc_t;
+
+typedef struct {
+    int32_t majorVersion;
+    int32_t minorVersion;
+    int32_t patchVersion;
+    char* versionSuffix;
+    char* gitCommitSha1;
+    char* friendlyVersionString;
+    int32_t apiLevel;
+} astra_version_info_t;
 
 typedef struct _astra_streamset* astra_streamset_t;
 typedef struct _astra_streamconnection_handle* astra_streamconnection_handle_t;
@@ -69,7 +85,7 @@ typedef enum {
     ASTRA_STATUS_UNINITIALIZED = 7
 } astra_status_t;
 
-typedef size_t astra_callback_id_t;
+typedef uint64_t astra_callback_id_t;
 
 typedef struct _astra_reader_callback_id* astra_reader_callback_id_t;
 
@@ -87,6 +103,31 @@ typedef enum {
     ASTRA_SEVERITY_TRACE   = 6
 } astra_log_severity_t;
 
+typedef enum {
+    ASTRA_CHIP_ID_UNKNOWN = 0,
+    ASTRA_CHIP_ID_MX400 = 1,
+    ASTRA_CHIP_ID_MX6000 = 2,
+    ASTRA_CHIP_ID_DUAL_MX6000 = 3
+} astra_chip_id_t;
+
 typedef uint32_t astra_event_id;
+
+#ifndef ASTRA_TRUE
+#define ASTRA_TRUE 1
+#endif
+
+#ifndef ASTRA_FALSE
+#define ASTRA_FALSE 0
+#endif
+
+#ifndef ASTRA_NULL
+    #ifdef NULL
+        #define ASTRA_NULL NULL
+    #else
+        #define ASTRA_NULL 0
+    #endif
+#endif
+
+typedef int8_t astra_bool_t;
 
 #endif /* ASTRA_TYPES_H */

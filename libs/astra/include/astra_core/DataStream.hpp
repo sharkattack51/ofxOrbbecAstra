@@ -1,5 +1,5 @@
 // This file is part of the Orbbec Astra SDK [https://orbbec3d.com]
-// Copyright (c) 2015 Orbbec 3D
+// Copyright (c) 2015-2017 Orbbec 3D
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,12 +23,23 @@
 
 namespace astra {
 
+    /*!
+      \ingroup cpp_core_api_ref
+      \brief Data Stream
+
+      \details Basic stream class of Data Stream.
+     */
     class DataStream
     {
     public:
         DataStream()
         {}
 
+        /*! 
+        \brief default constructs
+        
+        \param[in] connection
+        */
         DataStream(astra_streamconnection_t connection)
             : connection_(connection)
         {
@@ -38,8 +49,25 @@ namespace astra {
             }
         }
 
-        bool is_available() { return connection_ != nullptr; }
+        /*! 
+        \brief start stream       
+        
+        \return is stream available
+        */
+        bool is_available() 
+        {  
+            bool isAvailable = false;
+            if (connection_ == nullptr)
+            {
+                return isAvailable;
+            }
+            astra_stream_is_available(connection_, &isAvailable);
+            return isAvailable;
+        }
 
+        /*! 
+        \brief start stream       
+        */
         void start()
         {
             if(connection_ == nullptr)
@@ -48,8 +76,11 @@ namespace astra {
             }
             astra_stream_start(connection_);
         }
+        
+        /*! 
+        \brief stop stream       
+        */
         void stop()
-
         {
             if(connection_ == nullptr)
             {

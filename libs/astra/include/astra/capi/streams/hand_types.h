@@ -1,5 +1,5 @@
 // This file is part of the Orbbec Astra SDK [https://orbbec3d.com]
-// Copyright (c) 2015 Orbbec 3D
+// Copyright (c) 2015-2017 Orbbec 3D
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@
 
 #define ASTRA_HANDS_MAX_HAND_COUNT 10
 
-typedef enum _astra_debug_hand_view_type {
+typedef enum {
     DEBUG_HAND_VIEW_DEPTH,
     DEBUG_HAND_VIEW_VELOCITY,
     DEBUG_HAND_VIEW_FILTEREDVELOCITY,
@@ -38,14 +38,14 @@ typedef enum _astra_debug_hand_view_type {
     DEBUG_HAND_VIEW_TEST_PASS_MAP,
 } astra_debug_hand_view_type_t;
 
-typedef enum _astra_handstatus {
+typedef enum {
     HAND_STATUS_NOTTRACKING,
     HAND_STATUS_CANDIDATE,
     HAND_STATUS_TRACKING,
     HAND_STATUS_LOST
 } astra_handstatus_t;
 
-typedef struct _astra_handpoint {
+typedef struct {
     int32_t trackingId;
     astra_handstatus_t status;
     astra_vector2i_t depthPosition;

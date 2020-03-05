@@ -1,5 +1,5 @@
 // This file is part of the Orbbec Astra SDK [https://orbbec3d.com]
-// Copyright (c) 2015 Orbbec 3D
+// Copyright (c) 2015-2017 Orbbec 3D
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,4 +22,4 @@
 #include "Vector3i.hpp"
 #include "Vector3f.hpp"
 
-#endif // ASTRA_VECTOR_H
+#endif // ASTRA_VECTOR_HPP

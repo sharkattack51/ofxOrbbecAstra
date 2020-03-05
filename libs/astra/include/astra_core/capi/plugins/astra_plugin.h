@@ -1,5 +1,5 @@
 // This file is part of the Orbbec Astra SDK [https://orbbec3d.com]
-// Copyright (c) 2015 Orbbec 3D
+// Copyright (c) 2015-2017 Orbbec 3D
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,12 +21,6 @@
 #include "astra_plugin_callbacks.h"
 #include "astra_pluginservice_proxy.h"
 
-#if ! defined(__ANDROID__) && (defined(__GNUC__) || defined(__clang__))
-#define PACK_STRUCT __attribute__((packed))
-#else
-#define PACK_STRUCT
-#endif
-
 struct _astra_streamconnection {
     astra_streamconnection_handle_t handle;
     astra_stream_desc_t desc;
@@ -37,22 +31,17 @@ struct _astra_reader_callback_id {
     astra_callback_id_t callbackId;
 };
 
-
-#ifdef _MSC_VER
-#pragma pack(push, 1)
-#endif
-
 struct _astra_frame {
-    size_t byteLength;
+    uint32_t byteLength;
     astra_frame_index_t frameIndex;
     union {
         void* data;
         uint64_t pad0;
     };
-} PACK_STRUCT;
+};
 
-#ifdef _MSC_VER
-#pragma pack(pop)
-#endif
+struct astra_plugin_info_t {
+    astra_version_info_t versionInfo;
+};
 
 #endif /* ASTRA_PLUGIN_H */

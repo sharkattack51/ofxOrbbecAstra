@@ -1,5 +1,5 @@
 // This file is part of the Orbbec Astra SDK [https://orbbec3d.com]
-// Copyright (c) 2015 Orbbec 3D
+// Copyright (c) 2015-2017 Orbbec 3D
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,12 +24,28 @@
 
 namespace astra {
 
+    /*!
+      \defgroup cpp_point_api_ref point stream apis
+      \ingroup cpp_high_api_ref
+      @{
+     */
+
+    /*!
+      \brief A Point Data Stream
+
+      \details A Point Data Stream.
+     */
     class PointStream : public DataStream
     {
     public:
         PointStream()
         {}
 
+        /*! 
+        \brief default constructs
+        
+        \param[in] connection
+        */
         explicit PointStream(astra_streamconnection_t connection)
             : DataStream(connection)
         {
@@ -42,13 +58,24 @@ namespace astra {
         astra_pointstream_t pointStream_;
     };
 
+    /*!
+      \brief A Point Data Frame
+
+      \details A Point Data Frame
+     */
     class PointFrame : public ImageFrame<Vector3f, ASTRA_STREAM_POINT>
     {
     public:
+        /*! 
+        \brief default constructs
+        
+        \param[in] frame
+        */
         PointFrame(astra_imageframe_t frame)
             : ImageFrame(frame, ASTRA_PIXEL_FORMAT_POINT)
         {}
     };
+    /** @} */
 }
 
 #endif // ASTRA_POINT_HPP

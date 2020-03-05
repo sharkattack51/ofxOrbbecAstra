@@ -1,5 +1,5 @@
 // This file is part of the Orbbec Astra SDK [https://orbbec3d.com]
-// Copyright (c) 2015 Orbbec 3D
+// Copyright (c) 2015-2017 Orbbec 3D
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,8 +21,9 @@ enum {
     ASTRA_PARAMETER_IMAGE_HFOV = 0,
     ASTRA_PARAMETER_IMAGE_VFOV = 1,
     ASTRA_PARAMETER_IMAGE_MIRRORING = 2,
-    ASTRA_PARAMETER_IMAGE_MODES = 3,
-    ASTRA_PARAMETER_IMAGE_MODE = 4
+    ASTRA_PARAMETER_IMAGE_AVAILABLE_MODES = 3,
+    ASTRA_PARAMETER_IMAGE_MODE = 4,
+    ASTRA_PARAMETER_IMAGE_USB_INFO = 5
 };
 
 #endif /* IMAGE_PARAMETERS_H */

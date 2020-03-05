@@ -1,5 +1,5 @@
 // This file is part of the Orbbec Astra SDK [https://orbbec3d.com]
-// Copyright (c) 2015 Orbbec 3D
+// Copyright (c) 2015-2017 Orbbec 3D
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@
 #include <system_error>
 #include <cassert>
 #include <unordered_set>
+#include <cstdint>
 
 namespace astra { namespace plugins {
 
@@ -117,20 +118,20 @@ namespace astra { namespace plugins {
         virtual void connection_stopped(astra_stream_t stream,
                                         astra_streamconnection_t connection) override final;
 
-        virtual void set_parameter(astra_streamconnection_t connection,
-                                   astra_parameter_id id,
-                                   size_t inByteLength,
-                                   astra_parameter_data_t inData) override final;
+        virtual astra_status_t set_parameter(astra_streamconnection_t connection,
+                                             astra_parameter_id id,
+                                             std::uint32_t inByteLength,
+                                             astra_parameter_data_t inData) override final;
 
-        virtual void get_parameter(astra_streamconnection_t connection,
-                                   astra_parameter_id id,
-                                   astra_parameter_bin_t& parameterBin) override final;
+        virtual astra_status_t get_parameter(astra_streamconnection_t connection,
+                                              astra_parameter_id id,
+                                              astra_parameter_bin_t& parameterBin) override final;
 
-        virtual void invoke(astra_streamconnection_t connection,
-                            astra_command_id commandId,
-                            size_t inByteLength,
-                            astra_parameter_data_t inData,
-                            astra_parameter_bin_t& parameterBin) override final;
+        virtual astra_status_t invoke(astra_streamconnection_t connection,
+                                      astra_command_id commandId,
+                                      std::uint32_t inByteLength,
+                                      astra_parameter_data_t inData,
+                                      astra_parameter_bin_t& parameterBin) override final;
 
         virtual void on_connection_added(astra_streamconnection_t connection) {}
 
@@ -141,20 +142,30 @@ namespace astra { namespace plugins {
 
         virtual void on_connection_stopped(astra_streamconnection_t connection) {}
 
-        virtual void on_set_parameter(astra_streamconnection_t connection,
-                                      astra_parameter_id id,
-                                      size_t inByteLength,
-                                      astra_parameter_data_t inData) {}
+        virtual astra_status_t on_set_parameter(astra_streamconnection_t connection,
+                                                astra_parameter_id id,
+                                                std::uint32_t inByteLength,
+                                                astra_parameter_data_t inData)
+        {
+            // should we have a unsupported status?
+            return astra_status_t::ASTRA_STATUS_INVALID_OPERATION;
+        }
 
-        virtual void on_get_parameter(astra_streamconnection_t connection,
-                                      astra_parameter_id id,
-                                      astra_parameter_bin_t& parameterBin) {}
+        virtual astra_status_t on_get_parameter(astra_streamconnection_t connection,
+                                                astra_parameter_id id,
+                                                astra_parameter_bin_t& parameterBin)
+        {
+            return astra_status_t::ASTRA_STATUS_INVALID_OPERATION;
+        }
 
-        virtual void on_invoke(astra_streamconnection_t connection,
-                               astra_command_id commandId,
-                               size_t inByteLength,
-                               astra_parameter_data_t inData,
-                               astra_parameter_bin_t& parameterBin) {};
+        virtual astra_status_t on_invoke(astra_streamconnection_t connection,
+                                         astra_command_id commandId,
+                                         std::uint32_t inByteLength,
+                                         astra_parameter_data_t inData,
+                                         astra_parameter_bin_t& parameterBin)
+        {
+            return astra_status_t::ASTRA_STATUS_INVALID_OPERATION;
+        };
 
         void create_stream(StreamDescription& description)
         {
@@ -176,37 +187,37 @@ namespace astra { namespace plugins {
         stream_event_handler* eventHandler_{nullptr};
     };
 
-    inline void stream::set_parameter(astra_streamconnection_t connection,
-                                      astra_parameter_id id,
-                                      size_t inByteLength,
-                                      astra_parameter_data_t inData)
+    inline astra_status_t stream::set_parameter(astra_streamconnection_t connection,
+                                                astra_parameter_id id,
+                                                std::uint32_t inByteLength,
+                                                astra_parameter_data_t inData)
     {
         if (eventHandler_)
-            eventHandler_->on_set_parameter(this, connection, id, inByteLength, inData);
+            return eventHandler_->on_set_parameter(this, connection, id, inByteLength, inData);
 
-        on_set_parameter(connection, id, inByteLength, inData);
+        return on_set_parameter(connection, id, inByteLength, inData);
     }
 
-    inline void stream::get_parameter(astra_streamconnection_t connection,
-                                      astra_parameter_id id,
-                                      astra_parameter_bin_t& parameterBin)
+    inline astra_status_t stream::get_parameter(astra_streamconnection_t connection,
+                                                astra_parameter_id id,
+                                                astra_parameter_bin_t& parameterBin)
     {
         if (eventHandler_)
-            eventHandler_->on_get_parameter(this, connection, id, parameterBin);
+            return eventHandler_->on_get_parameter(this, connection, id, parameterBin);
 
-        on_get_parameter(connection, id, parameterBin);
+        return on_get_parameter(connection, id, parameterBin);
     }
 
-    inline void stream::invoke(astra_streamconnection_t connection,
-                               astra_command_id commandId,
-                               size_t inByteLength,
-                               astra_parameter_data_t inData,
-                               astra_parameter_bin_t& parameterBin)
+    inline astra_status_t stream::invoke(astra_streamconnection_t connection,
+                                         astra_command_id commandId,
+                                         std::uint32_t inByteLength,
+                                         astra_parameter_data_t inData,
+                                         astra_parameter_bin_t& parameterBin)
     {
         if (eventHandler_)
-            eventHandler_->on_invoke(this, connection, commandId, inByteLength, inData, parameterBin);
+            return eventHandler_->on_invoke(this, connection, commandId, inByteLength, inData, parameterBin);
 
-        on_invoke(connection, commandId, inByteLength, inData, parameterBin);
+        return on_invoke(connection, commandId, inByteLength, inData, parameterBin);
     }
 
     inline void stream::connection_added(astra_stream_t stream,
